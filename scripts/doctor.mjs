@@ -2,12 +2,14 @@ import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {resolve,dirname,join} from 'node:path';
 import {createRequire} from 'node:module';
 import net from 'node:net';
+import {diagnoseNodeVersion} from './node-version.mjs';
 
 const root=process.cwd();
 let failures=0;
 function report(ok,message){console.log(`${ok?'✓':'✗'} ${message}`);if(!ok)failures++;}
-const [major,minor]=process.versions.node.split('.').map(Number);
-report(major>22||(major===22&&minor>=13),`Node.js ${process.versions.node}（要求 22.13.0 或更高版本）`);
+const nodeVersion=diagnoseNodeVersion(process.versions.node);
+report(nodeVersion.supported,nodeVersion.message);
+if(!nodeVersion.supported)process.exit(1);
 let ready=true;
 let pkg;
 try{pkg=JSON.parse(readFileSync(resolve(root,'package.json'),'utf8'));}catch{report(false,'当前目录缺少 package.json，请进入 Paper2Play 项目目录再运行。');process.exit(1);}

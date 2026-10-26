@@ -1,7 +1,8 @@
 import {spawnSync} from 'node:child_process';
 import {resolve} from 'node:path';
-const [major,minor]=process.versions.node.split('.').map(Number);
-if(major<22||(major===22&&minor<13)){console.error('需要 Node.js 22.13.0 或更高版本；请更新 Node.js 后重新运行。');process.exit(1);}
+import {diagnoseNodeVersion} from './node-version.mjs';
+const nodeVersion=diagnoseNodeVersion(process.versions.node);
+if(!nodeVersion.supported){console.error(nodeVersion.message);process.exit(1);}
 if(!process.env.npm_execpath){console.error('请通过 npm run setup 运行安装程序。');process.exit(1);}
 function run(args){const result=spawnSync(process.execPath,args,{stdio:'inherit',env:process.env});if(result.error||result.status!==0){console.error('安装未完成。请检查网络连接和上方依赖安装日志，修复后重试。');process.exit(result.status??1);}}
 console.log('正在按锁文件安装项目依赖，缓存仅写入 .npm-cache；不修改系统设置。');

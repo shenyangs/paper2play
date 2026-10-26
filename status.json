@@ -6,12 +6,12 @@
     {
       "id": "build",
       "passed": true,
-      "evidence": "artifacts/logs/zh-build.log"
+      "evidence": "artifacts/logs/node-range-build.log"
     },
     {
-      "id": "unit-7",
+      "id": "unit-24",
       "passed": true,
-      "evidence": "artifacts/logs/zh-test.log"
+      "evidence": "artifacts/logs/node-range-test.log"
     },
     {
       "id": "browser-7",
@@ -128,5 +128,10 @@
     "doctor": "scripts/doctor.mjs",
     "noApiKeyRequired": true,
     "keyboardAndMobileVerified": true
+  },
+  "nodeCompatibility": {
+    "range": "^22.13.0 || ^24.0.0 || >=26.0.0",
+    "recommended": "24 LTS",
+    "validation": "本次版本范围小修重跑 build 和 test（24 项通过）；按复核要求未重跑浏览器，E2E/demo 证据沿用前一轮。版本边界为诊断函数测试，未安装各版本 Node 实机验证。"
   }
 }
