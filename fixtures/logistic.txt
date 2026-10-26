@@ -1,0 +1,4 @@
+Paper2Play self-authored demonstration fixture (not a published paper).
+P(t)=K/(1+A*exp(-r*t))
+K is capacity, A the initial-condition factor, r the growth rate. All are positive.
+P(0)=K/(1+A); P(t) approaches K as t increases.

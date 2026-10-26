@@ -13,17 +13,17 @@
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
     "e2e": "playwright test",
-    "demo": "playwright test tests/demo.spec.ts",
-    "check": "npm run build && npm run test && npm run e2e"
+    "demo": "playwright test tests/demo.spec.ts --output=artifacts/playwright/demo",
+    "check": "npm run build && npm run test && npm run e2e",
+    "browsers:install": "node scripts/install-browser.mjs"
   },
   "dependencies": {
-    "react": "*",
-    "react-dom": "*",
     "express": "*",
     "lucide-react": "*",
     "pdfjs-dist": "*",
-    "recharts": "*",
-    "expr-eval": "*"
+    "react": "*",
+    "react-dom": "*",
+    "recharts": "*"
   },
   "devDependencies": {
     "@playwright/test": "*",

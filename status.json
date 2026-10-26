@@ -1,0 +1,91 @@
+{
+  "project": "paper2play",
+  "state": "PARTIAL",
+  "scenario": "Source text or born-digital PDF \u2192 heuristic logistic recognition \u2192 interactive numerical curve \u2192 source evidence and automated assertions",
+  "checks": [
+    {
+      "id": "build",
+      "passed": true,
+      "evidence": "artifacts/logs/build.log"
+    },
+    {
+      "id": "unit-6",
+      "passed": true,
+      "evidence": "artifacts/logs/test.log"
+    },
+    {
+      "id": "browser-5",
+      "passed": true,
+      "evidence": "artifacts/logs/e2e.log"
+    },
+    {
+      "id": "demo-1",
+      "passed": true,
+      "evidence": "artifacts/logs/demo.log"
+    },
+    {
+      "id": "real-screenshot-and-video",
+      "passed": true,
+      "evidence": "artifacts/logs/media-verification.json"
+    },
+    {
+      "id": "live-model",
+      "passed": false,
+      "evidence": "README.md"
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "cmd": "npm run test",
+      "exitCode": 0
+    },
+    {
+      "cmd": "npm run e2e",
+      "exitCode": 0
+    },
+    {
+      "cmd": "npm run demo",
+      "exitCode": 0
+    }
+  ],
+  "liveModel": false,
+  "fixturesUsed": true,
+  "demoVideo": "artifacts/playwright/demo/demo-demo-source-equation--6a7d2-real-interactive-experiment/video.webm",
+  "limitations": [
+    "No model integration or inference; heuristic-only MVP.",
+    "Only the predefined logistic expression signature is supported; no OCR or general formula derivation.",
+    "Parameters are illustrative inputs, not extracted estimates.",
+    "Passing Playwright runs reuse cached Chromium through PLAYWRIGHT_EXECUTABLE_PATH and local matching FFmpeg. Fresh browser installation was stopped after slow downloads and remains unverified.",
+    "Build emits a non-fatal bundle-size warning. Arbitrary third-party PDFs and cross-browser behavior are unverified."
+  ],
+  "priorFailures": [
+    {
+      "command": "npm run build",
+      "reason": "Removed obsolete PDF.js option rejected by TypeScript; final build passes."
+    },
+    {
+      "command": "npm run e2e",
+      "exitCode": 1,
+      "evidence": "artifacts/logs/e2e-initial-failure.log"
+    },
+    {
+      "command": "npm run e2e",
+      "exitCode": 1,
+      "evidence": "artifacts/logs/e2e-ffmpeg-failure.log"
+    },
+    {
+      "command": "npm run browsers:install",
+      "exitCode": 130,
+      "evidence": "artifacts/logs/browser-install.log"
+    },
+    {
+      "command": "npm run browsers:install",
+      "exitCode": 130,
+      "evidence": "artifacts/logs/browser-install-shell.log"
+    }
+  ]
+}
