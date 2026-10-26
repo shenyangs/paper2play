@@ -1,32 +1,57 @@
 {
   "project": "paper2play",
   "state": "PARTIAL",
-  "scenario": "Source text or born-digital PDF \u2192 heuristic logistic recognition \u2192 interactive numerical curve \u2192 source evidence and automated assertions",
+  "scenario": "中文来源文本或 PDF → 规则识别 Logistic 方程 → 实时调参 → 来源证据与自动断言（零 Key、无 AI 推理）",
   "checks": [
     {
       "id": "build",
       "passed": true,
-      "evidence": "artifacts/logs/build.log"
+      "evidence": "artifacts/logs/zh-build.log"
     },
     {
-      "id": "unit-6",
+      "id": "unit-7",
       "passed": true,
-      "evidence": "artifacts/logs/test.log"
+      "evidence": "artifacts/logs/zh-test.log"
     },
     {
-      "id": "browser-5",
+      "id": "browser-7",
       "passed": true,
-      "evidence": "artifacts/logs/e2e.log"
+      "evidence": "artifacts/logs/zh-e2e.log"
     },
     {
       "id": "demo-1",
       "passed": true,
-      "evidence": "artifacts/logs/demo.log"
+      "evidence": "artifacts/logs/zh-demo.log"
     },
     {
-      "id": "real-screenshot-and-video",
+      "id": "setup-cached",
       "passed": true,
-      "evidence": "artifacts/logs/media-verification.json"
+      "evidence": "artifacts/logs/zh-setup.log"
+    },
+    {
+      "id": "doctor-ready",
+      "passed": true,
+      "evidence": "artifacts/logs/zh-doctor.log"
+    },
+    {
+      "id": "doctor-missing-dependency-expected-exit-1",
+      "passed": true,
+      "evidence": "artifacts/logs/zh-doctor-missing.log"
+    },
+    {
+      "id": "doctor-port-busy-expected-exit-1",
+      "passed": true,
+      "evidence": "artifacts/logs/zh-doctor-port-busy.log"
+    },
+    {
+      "id": "chinese-desktop",
+      "passed": true,
+      "evidence": "artifacts/zh-demo.png"
+    },
+    {
+      "id": "chinese-mobile",
+      "passed": true,
+      "evidence": "artifacts/zh-mobile.png"
     },
     {
       "id": "live-model",
@@ -50,22 +75,31 @@
     {
       "cmd": "npm run demo",
       "exitCode": 0
+    },
+    {
+      "cmd": "npm run setup（复用 Chromium 与 FFmpeg 缓存）",
+      "exitCode": 0
+    },
+    {
+      "cmd": "npm run doctor",
+      "exitCode": 0
     }
   ],
   "liveModel": false,
   "fixturesUsed": true,
   "demoVideo": "artifacts/playwright/demo/demo-demo-source-equation--6a7d2-real-interactive-experiment/video.webm",
   "limitations": [
-    "No model integration or inference; heuristic-only MVP.",
-    "Only the predefined logistic expression signature is supported; no OCR or general formula derivation.",
-    "Parameters are illustrative inputs, not extracted estimates.",
-    "Passing Playwright runs reuse cached Chromium through PLAYWRIGHT_EXECUTABLE_PATH and local matching FFmpeg. Fresh browser installation was stopped after slow downloads and remains unverified.",
-    "Build emits a non-fatal bundle-size warning. Arbitrary third-party PDFs and cross-browser behavior are unverified."
+    "未接入模型，无真实 AI 推理；仅提供明确标注的规则识别与自编示例。",
+    "只支持预设 Logistic 公式文字签名，不支持 OCR、任意等价公式和一般论文实现。",
+    "参数为演示输入，不是从文献提取的估计。",
+    "本轮 setup 实际执行 npm ci，复用现有 Chromium 和本地 FFmpeg；完整空缓存浏览器下载未验证，未重复大型下载。",
+    "已在 macOS 的 Node.js 26.4.0 环境验证；Windows/Linux 和其他 Node.js 版本尚未实机验证。",
+    "构建有非致命包体积警告；跨浏览器、任意第三方 PDF、完整无障碍审计未验证。"
   ],
   "priorFailures": [
     {
       "command": "npm run build",
-      "reason": "Removed obsolete PDF.js option rejected by TypeScript; final build passes."
+      "reason": "早期构建移除了 PDF.js 不支持的过期类型选项，最终构建通过。"
     },
     {
       "command": "npm run e2e",
@@ -87,5 +121,12 @@
       "exitCode": 130,
       "evidence": "artifacts/logs/browser-install-shell.log"
     }
-  ]
+  ],
+  "localization": {
+    "defaultLanguage": "zh-CN",
+    "setup": "scripts/setup.mjs",
+    "doctor": "scripts/doctor.mjs",
+    "noApiKeyRequired": true,
+    "keyboardAndMobileVerified": true
+  }
 }

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "concurrently -k -n web,api \"npm:dev:web\" \"npm:dev:api\"",
@@ -15,7 +15,9 @@
     "e2e": "playwright test",
     "demo": "playwright test tests/demo.spec.ts --output=artifacts/playwright/demo",
     "check": "npm run build && npm run test && npm run e2e",
-    "browsers:install": "node scripts/install-browser.mjs"
+    "browsers:install": "node scripts/install-browser.mjs",
+    "setup": "node scripts/setup.mjs",
+    "doctor": "node scripts/doctor.mjs"
   },
   "dependencies": {
     "express": "*",

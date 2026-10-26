@@ -1,28 +1,30 @@
-# A09 — Paper2Play
+# A09 — Paper2Play 中文项目说明
 
-Build an evidence-linked 'paper formula -> interactive experiment' for ONE supported equation family. Read ./AGENTS.md. Truthful extraction and parameter sliders are more important than generic PDF-to-app claims. 110-minute MVP.
+目标：为一个受支持的公式族建立“真实来源 → 规则识别 → 可交互实验 → 自动断言”闭环。此项目只支持 Logistic 增长公式 `P(t)=K/(1+A*exp(-r*t))`，不声称将任意论文转换为应用。
 
-## Strict scope / libraries
-- React/Vite, Express, `pdfjs-dist` for born-digital PDF text only (no OCR), `recharts` for plot, `expr-eval` only if necessary for safe whitelisted math. No JS eval or generated arbitrary executable source.
-- Accept PDF <=5 MB or paste plain text. Extract page-by-page text and search for logistic growth family `P(t)=K/(1+A*exp(-r*t))` or equivalent predefined signature; provide separate bundled self-authored sample text. If equation text can't be verified, show 'unsupported equation' and allow selection of an explicitly labelled demonstration sample — NEVER fabricate a derived formula or paper citation.
-- User must see extracted text snippet, page index (if PDF), detected equation family, and editable K,A,r parameters. Chart samples fixed numeric t grid and recalculates immediately. Need visible separation between 'source evidence' and the simulator.
+## 范围
 
-## P0 happy path
-1. Click 'Load example', see authentic fixture sample snippet and recognized logistic equation. Optional PDF upload processed if extracted text supports it.
-2. Three sliders K, A, r; move r and watch real computed trajectory change. Hover chart for value.
-3. 'Show source' displays the actual snippet and specific source type/page (for fixture text, show fixture, not fictitious page).
-4. Unsupported input returns graceful error; no hallucinated general-paper support.
+- 保持 TypeScript、React、Vite、Express、Playwright 技术栈；网页 4209、API 5209，只绑定 127.0.0.1。
+- 使用 PDF.js 按页提取含文字 PDF，不支持 OCR；最多 5 MB / 40 页。也支持粘贴文本。
+- 预设公式签名无法核对时提示不支持，不编造来源、公式或模型输出。自编示例必须明确标注。
+- 来源片段、来源类型与实际 PDF 页码独立展示；K、A、r 为可编辑演示参数，固定时间网格上的曲线实时重算。
+- 中文默认界面，品牌和代码标识保留；错误、忙碌、空态、帮助和可访问名称均为中文。小屏与键盘可操作。
+- 不引入账户、付费或云端部署，不扩大公式支持范围。所有写入限于本项目。
 
-## Must prove
-- Unit test exact logistic function value t=0 and monotonic growth for positive parameters; rejects unsupported formula text and too-large upload.
-- E2E moves r slider, confirms chart data and readout actually changed (not only animation).
-- Demo video shows an actual formula reference and sliders manipulating derived plot.
-- README says logistic family only, born-digital PDF only, heuristic extraction; no universal paper implementation.
+## 体验路径
 
-## X hook
-'A research equation stopped being a screenshot. I turned it into an experiment.' Show excerpt -> live plot -> slider changes curve, with source badge.
+1. 点击“载入示例”，看到自编资料和 Logistic 识别结果。
+2. 调整 r，验证曲线数据和读数真实改变；K、A 也可修改。
+3. 点击“查看来源”，显示真实片段与来源标记；PDF 必须显示实际页码。
 
+## 交付与验证
 
-Execute within this directory only. Run npm install, implement, then build/test/e2e/demo. Preserve real logs and status.json.
+- 数学测试覆盖 t=0 精确值、正参数单调增长、非法输入与上传大小边界。
+- 浏览器测试核对数据而非仅看动画；真实演示输出截图与录像。补充小屏、键盘、忙碌、失败重试验证。
+- 提供跨平台 `npm run setup`、中文 `npm run doctor`；依赖与浏览器缓存保存在项目内。检查缺依赖时有明确恢复说明，不要求无关 Key，不修改系统设置。
+- 实际运行 build、test、e2e、demo，保留日志；失败须保留并修复重跑，不伪造通过。
+- README 中文为主，列出精确运行入口、环境、主要依赖用途、安装、三步演示、操作系统差异和限制。
+- 更新 status.json；没有真实模型集成时保持 PARTIAL。未完成的全新浏览器安装必须明确记录。
+- 独立 Git 提交源码、锁文件、文档和 MIT 许可证；不提交凭据、私有绝对路径、日志、录屏、缓存或 node_modules。推送由主对话复核后处理。
 
-This is an authorized independent sprint execution. Start implementing now, no confirmation. Do not spawn subagents. All writes limited to this app directory; use npm install --cache .npm-cache and keep .npm-cache ignored. Existing Playwright browsers may be read from ~/Library/Caches/ms-playwright; if install required use PLAYWRIGHT_BROWSERS_PATH inside this project. Install dependencies, replace starter tests with meaningful behavior tests, run build/test/e2e/demo and preserve actual logs, screenshot and video. Do not read user credentials or other project data. Missing model keys: runnable clearly labelled fixture and PARTIAL status. Add LICENSE. Verify and finish, not merely plan.
+上级执行约束见 AGENTS.md，法律许可原文见 LICENSE。
