@@ -1,57 +1,57 @@
 {
   "project": "paper2play",
   "state": "PARTIAL",
-  "scenario": "中文来源文本或 PDF → 规则识别 Logistic 方程 → 实时调参 → 来源证据与自动断言（零 Key、无 AI 推理）",
+  "scenario": "研究笔记：核对 Logistic 来源 → 调整 K/A/r → 对照实际曲线与数值（自编示例，无 AI 推理）",
   "checks": [
+    {
+      "id": "doctor-ready",
+      "passed": true,
+      "evidence": "artifacts/logs/redesign-doctor.log"
+    },
     {
       "id": "build",
       "passed": true,
-      "evidence": "artifacts/logs/node-range-build.log"
+      "evidence": "artifacts/logs/redesign-build.log"
     },
     {
       "id": "unit-24",
       "passed": true,
-      "evidence": "artifacts/logs/node-range-test.log"
+      "evidence": "artifacts/logs/redesign-test.log"
     },
     {
       "id": "browser-7",
       "passed": true,
-      "evidence": "artifacts/logs/zh-e2e.log"
+      "evidence": "artifacts/logs/redesign-e2e.log"
     },
     {
       "id": "demo-1",
       "passed": true,
-      "evidence": "artifacts/logs/zh-demo.log"
+      "evidence": "artifacts/logs/redesign-demo.log"
     },
     {
-      "id": "setup-cached",
+      "id": "desktop-notebook-1440x900",
       "passed": true,
-      "evidence": "artifacts/logs/zh-setup.log"
+      "evidence": "docs/images/notebook.png"
     },
     {
-      "id": "doctor-ready",
+      "id": "computed-result",
       "passed": true,
-      "evidence": "artifacts/logs/zh-doctor.log"
+      "evidence": "docs/images/experiment.png"
     },
     {
-      "id": "doctor-missing-dependency-expected-exit-1",
+      "id": "mobile-390-keyboard-focus",
       "passed": true,
-      "evidence": "artifacts/logs/zh-doctor-missing.log"
+      "evidence": "artifacts/notebook-mobile.png"
     },
     {
-      "id": "doctor-port-busy-expected-exit-1",
+      "id": "empty-state",
       "passed": true,
-      "evidence": "artifacts/logs/zh-doctor-port-busy.log"
+      "evidence": "artifacts/notebook-empty.png"
     },
     {
-      "id": "chinese-desktop",
+      "id": "error-state",
       "passed": true,
-      "evidence": "artifacts/zh-demo.png"
-    },
-    {
-      "id": "chinese-mobile",
-      "passed": true,
-      "evidence": "artifacts/zh-mobile.png"
+      "evidence": "artifacts/notebook-error.png"
     },
     {
       "id": "live-model",
@@ -60,6 +60,10 @@
     }
   ],
   "commands": [
+    {
+      "cmd": "npm run doctor",
+      "exitCode": 0
+    },
     {
       "cmd": "npm run build",
       "exitCode": 0
@@ -75,14 +79,6 @@
     {
       "cmd": "npm run demo",
       "exitCode": 0
-    },
-    {
-      "cmd": "npm run setup（复用 Chromium 与 FFmpeg 缓存）",
-      "exitCode": 0
-    },
-    {
-      "cmd": "npm run doctor",
-      "exitCode": 0
     }
   ],
   "liveModel": false,
@@ -92,7 +88,7 @@
     "未接入模型，无真实 AI 推理；仅提供明确标注的规则识别与自编示例。",
     "只支持预设 Logistic 公式文字签名，不支持 OCR、任意等价公式和一般论文实现。",
     "参数为演示输入，不是从文献提取的估计。",
-    "本轮 setup 实际执行 npm ci，复用现有 Chromium 和本地 FFmpeg；完整空缓存浏览器下载未验证，未重复大型下载。",
+    "本轮复用已有 Chromium 和项目内 FFmpeg，没有重新执行 setup 或空缓存浏览器下载。",
     "已在 macOS 的 Node.js 26.4.0 环境验证；Windows/Linux 和其他 Node.js 版本尚未实机验证。",
     "构建有非致命包体积警告；跨浏览器、任意第三方 PDF、完整无障碍审计未验证。"
   ],
@@ -132,6 +128,14 @@
   "nodeCompatibility": {
     "range": "^22.13.0 || ^24.0.0 || >=26.0.0",
     "recommended": "24 LTS",
-    "validation": "本次版本范围小修重跑 build 和 test（24 项通过）；按复核要求未重跑浏览器，E2E/demo 证据沿用前一轮。版本边界为诊断函数测试，未安装各版本 Node 实机验证。"
+    "validation": "本轮设计重做运行 doctor/build/test/e2e/demo。Node.js 26.4.0 实机通过；版本边界由单元测试检查，未逐版本安装。"
+  },
+  "design": {
+    "direction": "奶油纸色、墨蓝、衬线标题与分式排版；来源笔记与大幅曲线左右对照，滑块紧邻曲线。",
+    "screenshots": [
+      "docs/images/notebook.png",
+      "docs/images/experiment.png"
+    ],
+    "verification": "1440×900 桌面页面与 390 宽手机无横向溢出；桌面笔记含展开原文不超过 900 高；键盘 focus、滑块方向键、空状态、加载、失败与重试均有浏览器断言。"
   }
 }

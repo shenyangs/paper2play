@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('fixture to computed curve with source evidence',async({page})=>{
- await page.goto('/');await page.getByRole('button',{name:'载入示例'}).click();
+ await page.goto('/');await expect(page.getByText('等待一条有来源的公式')).toBeVisible();await expect(page.getByRole('slider')).toHaveCount(0);await page.screenshot({path:'artifacts/notebook-empty.png',fullPage:true});await page.getByRole('button',{name:'载入示例'}).click();
  await expect(page.getByText('已识别 Logistic 增长方程')).toBeVisible();
  const before=await page.getByTestId('chart-data').textContent();
  await expect(page.getByTestId('midpoint')).toHaveText('69.057');
@@ -14,6 +14,7 @@ test('fixture to computed curve with source evidence',async({page})=>{
 test('unsupported input never unlocks simulator',async({page})=>{
  await page.goto('/');await page.getByRole('textbox',{name:'论文或公式文本'}).fill('E = mc²');await page.getByRole('button',{name:'识别文本'}).click();
  await expect(page.getByRole('alert')).toContainText('暂不支持此公式');await expect(page.getByRole('slider')).toHaveCount(0);
+ await page.screenshot({path:'artifacts/notebook-error.png',fullPage:true});
 });
 test('PDF extraction reports real second page, invalid and oversized uploads rejected',async({page,request})=>{
  await page.goto('/');await page.getByLabel('上传 PDF').setInputFiles('fixtures/logistic.pdf');
@@ -35,12 +36,13 @@ test('pasted source and all parameter controls update results',async({page})=>{
 test('中文小屏、键盘滑块与焦点可用',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');
  await expect(page.locator('html')).toHaveAttribute('lang','zh-CN');
- const load=page.getByRole('button',{name:'载入示例'});await load.focus();await expect(load).toBeFocused();await page.keyboard.press('Enter');
+ const load=page.getByRole('button',{name:'载入示例'});await load.focus();await expect(load).toBeFocused();await expect(load).toHaveCSS('outline-style','solid');await page.keyboard.press('Enter');
  const slider=page.getByRole('slider',{name:'r 增长速率',exact:true});await expect(slider).toBeVisible();await slider.focus();await page.keyboard.press('ArrowRight');
  await expect(slider).toHaveValue('0.35');await expect(page.getByTestId('midpoint')).toHaveText((100/(1+9*Math.exp(-3.5))).toFixed(3));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
  await page.getByRole('button',{name:'查看来源'}).click();await expect(page.getByTestId('source-snippet')).toContainText('自编演示资料');
- await page.screenshot({path:'artifacts/zh-mobile.png',fullPage:true});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+ await page.screenshot({path:'artifacts/notebook-mobile.png',fullPage:true});
 });
 test('忙碌状态与连接失败均有中文反馈且能重试',async({page})=>{
  await page.route('**/api/example',async route=>{await new Promise(resolve=>setTimeout(resolve,500));await route.abort();});
